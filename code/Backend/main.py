@@ -3,8 +3,10 @@ import io
 import base64
 import numpy as np
 import cv2
+import uvicorn
 from fastapi import FastAPI, File, UploadFile, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 
 from hivision import IDCreator
 from hivision.creator.choose_handler import choose_handler
@@ -19,6 +21,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# 托管前端静态文件
+FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "..", "Frontend")
+FRONTEND_DIR = os.path.abspath(FRONTEND_DIR)
+
+@app.get("/")
+async def serve_frontend():
+    return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
 
 creator = IDCreator()
 
@@ -74,3 +84,7 @@ async def generate(
     return {
         "image": numpy_to_base64(output),
     }
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8080)
