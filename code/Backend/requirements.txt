@@ -1,3 +1,7 @@
 fastapi
 uvicorn[standard]
 python-multipart
+numpy
+onnxruntime
+opencv-python
+pillow
