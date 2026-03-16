@@ -76,7 +76,7 @@
     .nav-links a {
       font-size: 12px; font-weight: 500; letter-spacing: 0.14em;
       text-transform: uppercase; color: var(--muted);
-      text-decoration: none; transition: color 0.2s;
+      text-decoration: none; transition: color 0.2s; cursor: pointer;
     }
     .nav-links a:hover { color: var(--text); }
     .nav-links a.accent { color: var(--violet); }
@@ -1478,9 +1478,7 @@
   </footer>
 
   <script>
-    const API_BASE = window.location.protocol === 'file:'
-      ? 'http://localhost:8080'
-      : `${window.location.protocol}//${window.location.host}`;
+    const API_BASE = 'http://localhost:8000';
 
     // Nav scroll effect
     const mainNav = document.getElementById("mainNav");
