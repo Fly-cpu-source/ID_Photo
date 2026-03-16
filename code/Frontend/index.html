@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" >
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" >
-  <title>VISAGE — 智能证件照</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" >
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin >
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet" >
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VISAGE — 智能证件照 & AI 换发型</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg:         #08080C;
@@ -25,6 +25,8 @@
       --muted:      #5E5E6E;
       --error:      #D95B5B;
       --success:    #5BAD7A;
+      --violet:     #8B7EC8;
+      --violet-dim: rgba(139,126,200,0.12);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -65,10 +67,10 @@
       font-family: 'Fraunces', serif;
       font-size: 22px; font-weight: 300;
       letter-spacing: 0.22em; color: var(--gold); text-transform: uppercase;
-      text-decoration: none;
+      text-decoration: none; cursor: pointer;
     }
     .nav-links {
-      display: flex; align-items: center; gap: 40px;
+      display: flex; align-items: center; gap: 36px;
       list-style: none;
     }
     .nav-links a {
@@ -77,12 +79,14 @@
       text-decoration: none; transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--text); }
+    .nav-links a.accent { color: var(--violet); }
+    .nav-links a.accent:hover { color: #a89dd6; }
     .nav-cta {
       font-size: 12px; font-weight: 600; letter-spacing: 0.16em;
       text-transform: uppercase; color: var(--bg);
       background: var(--gold);
       padding: 10px 22px; border-radius: 6px;
-      text-decoration: none;
+      text-decoration: none; cursor: pointer;
       transition: background 0.2s, transform 0.15s;
     }
     .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
@@ -99,8 +103,6 @@
       align-items: center; justify-content: center;
       width: 100%;
     }
-
-    /* Animated spotlight */
     .hero-bg {
       position: absolute; inset: 0; pointer-events: none;
       overflow: hidden;
@@ -113,13 +115,17 @@
       animation: pulse 6s ease-in-out infinite;
     }
     .hero-spot-2 {
-      position: absolute; top: 30%; left: 60%;
+      position: absolute; top: 30%; left: 62%;
       width: 500px; height: 500px;
-      background: radial-gradient(ellipse, rgba(100,80,200,0.04) 0%, transparent 70%);
+      background: radial-gradient(ellipse, rgba(139,126,200,0.05) 0%, transparent 70%);
       animation: pulse 8s 2s ease-in-out infinite;
     }
-
-    /* Dot grid */
+    .hero-spot-3 {
+      position: absolute; top: 60%; left: 20%;
+      width: 400px; height: 400px;
+      background: radial-gradient(ellipse, rgba(196,163,90,0.04) 0%, transparent 70%);
+      animation: pulse 10s 1s ease-in-out infinite;
+    }
     .hero-grid {
       position: absolute; inset: 0;
       background-image: radial-gradient(circle, rgba(200,168,110,0.12) 1px, transparent 1px);
@@ -131,8 +137,7 @@
     .hero-eyebrow {
       display: inline-flex; align-items: center; gap: 10px;
       font-size: 11px; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 36px;
+      color: var(--gold); margin-bottom: 36px;
       animation: fadeUp 0.9s ease both;
     }
     .hero-eyebrow::before, .hero-eyebrow::after {
@@ -142,56 +147,78 @@
 
     .hero h1 {
       font-family: 'Fraunces', serif;
-      font-size: clamp(56px, 9vw, 108px);
+      font-size: clamp(52px, 8.5vw, 104px);
       font-weight: 200; line-height: 1.0;
       letter-spacing: -0.01em; color: var(--text);
       margin-bottom: 28px;
       animation: fadeUp 0.9s 0.12s ease both;
     }
-    .hero h1 em {
-      font-style: italic; color: var(--gold);
-      font-weight: 300;
-    }
-    .hero h1 .line2 {
-      display: block;
-      color: var(--text2);
-    }
+    .hero h1 em { font-style: italic; color: var(--gold); font-weight: 300; }
+    .hero h1 .accent-violet { color: var(--violet); font-style: italic; }
+    .hero h1 .line2 { display: block; color: var(--text2); }
 
     .hero-desc {
       font-size: 17px; font-weight: 400; color: var(--text2);
-      letter-spacing: 0.02em; max-width: 480px;
+      letter-spacing: 0.02em; max-width: 520px;
       line-height: 1.75; margin: 0 auto 48px;
       animation: fadeUp 0.9s 0.22s ease both;
     }
 
+    /* Dual CTA */
     .hero-actions {
-      display: flex; align-items: center; gap: 16px;
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center;
       animation: fadeUp 0.9s 0.32s ease both;
     }
     .btn-hero-primary {
       display: inline-flex; align-items: center; gap: 10px;
-      padding: 16px 36px; border-radius: 8px;
-      background: var(--gold);
-      color: var(--bg); text-decoration: none;
+      padding: 16px 32px; border-radius: 8px;
+      background: var(--gold); color: var(--bg); text-decoration: none; cursor: pointer;
       font-size: 13px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
       transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
     }
     .btn-hero-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(196,163,90,0.3); }
     .btn-hero-primary svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
+    .btn-hero-violet {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 16px 32px; border-radius: 8px;
+      background: var(--violet-dim); color: var(--violet); text-decoration: none; cursor: pointer;
+      border: 1px solid rgba(139,126,200,0.3);
+      font-size: 13px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s, border-color 0.2s;
+    }
+    .btn-hero-violet:hover { background: rgba(139,126,200,0.2); border-color: var(--violet); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(139,126,200,0.15); }
+    .btn-hero-violet svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
     .btn-hero-ghost {
       display: inline-flex; align-items: center; gap: 8px;
-      padding: 16px 28px; border-radius: 8px;
+      padding: 16px 24px; border-radius: 8px;
       border: 1px solid var(--border2); color: var(--text2);
-      text-decoration: none;
+      text-decoration: none; cursor: pointer;
       font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
       transition: border-color 0.2s, color 0.2s;
     }
     .btn-hero-ghost:hover { border-color: var(--gold-dim); color: var(--gold); }
 
+    /* Hero capability pills */
+    .hero-pills {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;
+      margin-bottom: 40px;
+      animation: fadeUp 0.9s 0.28s ease both;
+    }
+    .hero-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
+      padding: 6px 14px; border-radius: 100px;
+      border: 1px solid var(--border2); color: var(--muted);
+    }
+    .hero-pill.gold { border-color: rgba(196,163,90,0.3); color: var(--gold-dim); }
+    .hero-pill.violet { border-color: rgba(139,126,200,0.3); color: var(--violet); }
+    .hero-pill-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+    .hero-pill.gold .hero-pill-dot { background: var(--gold); }
+    .hero-pill.violet .hero-pill-dot { background: var(--violet); }
+
     .hero-scroll {
       display: flex; flex-direction: column; align-items: center; gap: 8px;
-      margin-top: 56px;
-      padding-bottom: 8px;
+      margin-top: 56px; padding-bottom: 8px;
       animation: fadeUp 0.9s 0.5s ease both;
     }
     .scroll-line {
@@ -210,12 +237,15 @@
       content: ''; display: block;
       width: 24px; height: 1px; background: var(--gold-dim);
     }
+    .section-eyebrow.violet { color: var(--violet); }
+    .section-eyebrow.violet::before { background: var(--violet); opacity: 0.4; }
     .section-title {
       font-family: 'Fraunces', serif;
       font-size: clamp(36px, 5vw, 56px); font-weight: 200;
       line-height: 1.12; color: var(--text); margin-bottom: 16px;
     }
     .section-title em { font-style: italic; color: var(--gold); }
+    .section-title .accent-violet { font-style: italic; color: var(--violet); }
     .section-sub {
       font-size: 16px; font-weight: 400; color: var(--text2); line-height: 1.7;
       max-width: 520px;
@@ -226,58 +256,89 @@
       padding: 120px 56px;
       max-width: 1200px; margin: 0 auto;
     }
-    .features-header { margin-bottom: 80px; }
+    .features-header { margin-bottom: 72px; }
     .features-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
     }
     .feature-card {
-      padding: 48px 44px;
+      padding: 44px 40px;
       background: var(--surface);
       border: 1px solid var(--border);
       position: relative; overflow: hidden;
       transition: border-color 0.3s, background 0.3s;
     }
+    /* 2×3 rounded corners */
     .feature-card:nth-child(1) { border-radius: 16px 0 0 0; }
-    .feature-card:nth-child(2) { border-radius: 0 16px 0 0; }
-    .feature-card:nth-child(3) { border-radius: 0 0 0 16px; }
-    .feature-card:nth-child(4) { border-radius: 0 0 16px 0; }
+    .feature-card:nth-child(2) { border-radius: 0; }
+    .feature-card:nth-child(3) { border-radius: 0 16px 0 0; }
+    .feature-card:nth-child(4) { border-radius: 0 0 0 16px; }
+    .feature-card:nth-child(5) { border-radius: 0; }
+    .feature-card:nth-child(6) { border-radius: 0 0 16px 0; }
     .feature-card::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
       background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
       opacity: 0; transition: opacity 0.3s;
+    }
+    .feature-card.violet-card::before {
+      background: linear-gradient(to right, transparent, rgba(139,126,200,0.4), transparent);
     }
     .feature-card:hover { border-color: var(--border2); background: var(--surface2); }
     .feature-card:hover::before { opacity: 1; }
 
     .feature-num {
       font-family: 'Fraunces', serif;
-      font-size: 72px; font-weight: 200; font-style: italic;
+      font-size: 64px; font-weight: 200; font-style: italic;
       color: var(--border2); line-height: 1;
-      margin-bottom: 24px; letter-spacing: -0.02em;
+      margin-bottom: 20px; letter-spacing: -0.02em;
       transition: color 0.3s;
     }
     .feature-card:hover .feature-num { color: var(--gold-dim); }
+    .feature-card.violet-card:hover .feature-num { color: rgba(139,126,200,0.4); }
     .feature-icon {
-      width: 48px; height: 48px; border: 1px solid var(--border2); border-radius: 12px;
+      width: 44px; height: 44px; border: 1px solid var(--border2); border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
-      margin-bottom: 20px; background: var(--surface2);
+      margin-bottom: 18px; background: var(--surface2);
       transition: border-color 0.3s, background 0.3s;
     }
     .feature-card:hover .feature-icon { border-color: var(--gold-dim); background: var(--gold-glow); }
-    .feature-icon svg { width: 22px; height: 22px; stroke: var(--muted); fill: none; stroke-width: 1.5; transition: stroke 0.3s; }
+    .feature-card.violet-card:hover .feature-icon { border-color: rgba(139,126,200,0.4); background: var(--violet-dim); }
+    .feature-icon svg { width: 20px; height: 20px; stroke: var(--muted); fill: none; stroke-width: 1.5; transition: stroke 0.3s; }
     .feature-card:hover .feature-icon svg { stroke: var(--gold); }
+    .feature-card.violet-card:hover .feature-icon svg { stroke: var(--violet); }
     .feature-name {
-      font-size: 18px; font-weight: 600; color: var(--text);
-      letter-spacing: 0.01em; margin-bottom: 12px;
+      font-size: 17px; font-weight: 600; color: var(--text);
+      letter-spacing: 0.01em; margin-bottom: 10px;
     }
-    .feature-desc { font-size: 15px; font-weight: 400; color: var(--text2); line-height: 1.7; }
+    .feature-desc { font-size: 14px; font-weight: 400; color: var(--text2); line-height: 1.7; }
 
     /* ─── HOW IT WORKS ─── */
     .how {
       padding: 120px 56px;
       max-width: 1200px; margin: 0 auto;
     }
-    .how-header { margin-bottom: 72px; }
+    .how-header { margin-bottom: 56px; }
+
+    /* Tabs */
+    .how-tabs {
+      display: flex; gap: 0; margin-bottom: 56px;
+      border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+      max-width: 360px;
+    }
+    .how-tab {
+      flex: 1; padding: 12px 20px;
+      background: var(--surface2); cursor: pointer;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--muted); text-align: center;
+      transition: background 0.2s, color 0.2s;
+      border: none; font-family: 'Syne', sans-serif;
+    }
+    .how-tab + .how-tab { border-left: 1px solid var(--border); }
+    .how-tab.active { background: var(--gold); color: var(--bg); }
+    .how-tab.active.violet-tab { background: var(--violet); }
+
+    .how-panel { display: none; }
+    .how-panel.active { display: block; }
+
     .how-steps {
       display: grid; grid-template-columns: repeat(3, 1fr);
       position: relative;
@@ -287,6 +348,9 @@
       position: absolute; top: 32px; left: calc(16.67% + 32px); right: calc(16.67% + 32px);
       height: 1px;
       background: linear-gradient(to right, var(--gold-dim), var(--border2), var(--gold-dim));
+    }
+    .how-steps.violet-steps::before {
+      background: linear-gradient(to right, rgba(139,126,200,0.4), var(--border2), rgba(139,126,200,0.4));
     }
     .how-step {
       display: flex; flex-direction: column; align-items: center; text-align: center;
@@ -300,7 +364,9 @@
       color: var(--gold); margin-bottom: 28px; position: relative; z-index: 1;
       transition: background 0.3s, border-color 0.3s;
     }
+    .how-steps.violet-steps .how-step-num { border-color: rgba(139,126,200,0.4); color: var(--violet); }
     .how-step:hover .how-step-num { background: var(--gold-glow); border-color: var(--gold); }
+    .how-steps.violet-steps .how-step:hover .how-step-num { background: var(--violet-dim); border-color: var(--violet); }
     .how-step-title {
       font-size: 17px; font-weight: 600; color: var(--text);
       margin-bottom: 12px; letter-spacing: 0.01em;
@@ -314,6 +380,7 @@
       color: var(--gold-dim); border: 1px solid var(--border2);
       padding: 4px 10px; border-radius: 100px;
     }
+    .how-steps.violet-steps .how-step-tag { color: rgba(139,126,200,0.6); }
 
     /* ─── PRICING ─── */
     .pricing {
@@ -344,16 +411,12 @@
       display: inline-flex; align-items: center;
       font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
       color: var(--bg); background: var(--gold);
-      padding: 5px 12px; border-radius: 100px;
-      margin-bottom: 24px;
+      padding: 5px 12px; border-radius: 100px; margin-bottom: 24px;
     }
-    .pricing-badge.soon {
-      color: var(--muted); background: var(--surface3);
-    }
+    .pricing-badge.soon { color: var(--muted); background: var(--surface3); }
     .pricing-plan {
       font-family: 'Fraunces', serif;
-      font-size: 32px; font-weight: 300; color: var(--text);
-      margin-bottom: 8px;
+      font-size: 32px; font-weight: 300; color: var(--text); margin-bottom: 8px;
     }
     .pricing-price {
       font-size: 48px; font-weight: 700; color: var(--gold);
@@ -373,26 +436,24 @@
     }
     .pricing-features li.dimmed svg { stroke: var(--border2); }
     .pricing-features li.dimmed { color: var(--muted); }
+    .pricing-features li .feature-badge {
+      font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--bg); background: var(--violet);
+      padding: 2px 7px; border-radius: 100px; margin-left: auto; flex-shrink: 0;
+    }
     .pricing-cta {
       display: block; margin-top: 36px; padding: 14px;
       border-radius: 8px; text-align: center; text-decoration: none;
       font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
-      transition: background 0.2s, color 0.2s, transform 0.15s;
-      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.15s; cursor: pointer;
     }
-    .pricing-cta.primary {
-      background: var(--gold); color: var(--bg);
-    }
+    .pricing-cta.primary { background: var(--gold); color: var(--bg); }
     .pricing-cta.primary:hover { background: var(--gold-light); transform: translateY(-1px); }
-    .pricing-cta.ghost {
-      border: 1px solid var(--border2); color: var(--muted);
-      cursor: not-allowed;
-    }
+    .pricing-cta.ghost { border: 1px solid var(--border2); color: var(--muted); cursor: not-allowed; }
 
     /* ─── STUDIO ─── */
     .studio-section {
-      padding: 80px 0 140px;
-      position: relative;
+      padding: 80px 0 140px; position: relative;
     }
     .studio-header {
       text-align: center; padding: 0 56px; margin-bottom: 56px;
@@ -400,18 +461,14 @@
     .studio-wrap {
       max-width: 1160px; margin: 0 auto; padding: 0 40px;
     }
-
     .workspace {
       display: grid; grid-template-columns: 1fr 420px;
-      gap: 2px;
-      border-radius: 18px; overflow: hidden;
+      gap: 2px; border-radius: 18px; overflow: hidden;
       box-shadow: 0 40px 80px rgba(0,0,0,0.5);
     }
-
     /* Upload panel */
     .upload-panel {
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: var(--surface); border: 1px solid var(--border);
       border-right: none; border-radius: 18px 0 0 18px;
       padding: 44px; display: flex; flex-direction: column; gap: 28px;
     }
@@ -420,7 +477,6 @@
       color: var(--gold-dim); display: flex; align-items: center; gap: 12px;
     }
     .panel-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
     .upload-zone {
       position: relative; border: 1px solid var(--border2); border-radius: 12px;
       min-height: 400px; flex: 1;
@@ -437,7 +493,6 @@
     .upload-zone:hover::before { opacity: 1; }
     .upload-zone.drag-over { border-color: var(--gold); border-style: dashed; }
     .upload-zone.drag-over::before { opacity: 1; }
-
     .upload-hint {
       text-align: center; pointer-events: none;
       display: flex; flex-direction: column; align-items: center; gap: 18px;
@@ -452,7 +507,6 @@
     .upload-zone:hover .upload-icon-wrap svg { stroke: var(--gold); }
     .upload-hint-title { font-size: 16px; font-weight: 500; color: var(--text); letter-spacing: 0.01em; }
     .upload-hint-sub { font-size: 13px; color: var(--muted); font-weight: 400; letter-spacing: 0.03em; }
-
     .preview-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: 20px; }
     .preview-replace {
       position: absolute; bottom: 14px; right: 14px;
@@ -462,19 +516,16 @@
       cursor: pointer; transition: color 0.2s, border-color 0.2s;
     }
     .preview-replace:hover { color: var(--gold); border-color: var(--gold-dim); }
-
     /* Settings panel */
     .settings-panel {
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: var(--surface); border: 1px solid var(--border);
       border-radius: 0 18px 18px 0;
       padding: 44px 32px;
       display: flex; flex-direction: column; gap: 0;
       overflow: hidden;
     }
     .setting-block {
-      padding: 20px 0;
-      border-bottom: 1px solid var(--border);
+      padding: 20px 0; border-bottom: 1px solid var(--border);
     }
     .setting-block:first-child { padding-top: 0; }
     .setting-block:last-child { border-bottom: none; padding-bottom: 0; }
@@ -486,7 +537,6 @@
       font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase;
       color: var(--gold-dim); margin-bottom: 14px;
     }
-
     /* Color swatches */
     .color-swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
     .swatch {
@@ -508,7 +558,6 @@
     }
     .swatch-custom input[type="color"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
     .swatch-custom-icon { font-size: 20px; color: var(--muted); pointer-events: none; line-height: 1; }
-
     /* Model list */
     .model-list { display: flex; flex-direction: column; gap: 6px; }
     .model-option {
@@ -522,7 +571,6 @@
     .model-option.active { border-color: var(--gold-dim); background: var(--gold-glow); }
     .model-name { font-size: 14px; font-weight: 500; color: var(--text); }
     .model-desc { font-size: 11px; color: var(--muted); letter-spacing: 0.02em; }
-
     /* Size list */
     .size-list {
       display: flex; flex-direction: column; gap: 4px;
@@ -531,7 +579,6 @@
     .size-list::-webkit-scrollbar { width: 3px; }
     .size-list::-webkit-scrollbar-track { background: transparent; }
     .size-list::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
-
     .size-category {
       font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase;
       color: var(--muted); padding: 12px 2px 5px;
@@ -548,10 +595,8 @@
     .size-option.active { border-color: var(--gold-dim); background: var(--gold-glow); }
     .size-name { font-size: 14px; font-weight: 500; color: var(--text); }
     .size-dim { font-size: 11px; color: var(--muted); letter-spacing: 0.04em; font-family: monospace; }
-
     /* Generate area */
     .generate-area { padding-top: 20px; display: flex; flex-direction: column; gap: 12px; }
-
     .processing-overlay {
       display: flex; align-items: center; gap: 14px; padding: 4px 0;
     }
@@ -561,13 +606,11 @@
       border-radius: 50%; animation: spin 1s linear infinite;
     }
     .processing-text { font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
-
     .error-bar {
       padding: 13px 16px; border: 1px solid rgba(217,91,91,0.3);
       background: rgba(217,91,91,0.06); border-radius: 9px;
       font-size: 14px; color: var(--error); font-weight: 400; line-height: 1.5;
     }
-
     .btn-generate {
       width: 100%; padding: 18px;
       background: linear-gradient(135deg, #C4A35A 0%, #9C7F3A 100%);
@@ -584,6 +627,10 @@
     .btn-generate:hover:not(:disabled) { opacity: 0.92; transform: translateY(-2px); box-shadow: 0 10px 28px rgba(196,163,90,0.3); }
     .btn-generate:active:not(:disabled) { transform: translateY(0); box-shadow: none; }
     .btn-generate:disabled { opacity: 0.28; cursor: not-allowed; transform: none; }
+    .btn-generate.violet-btn {
+      background: linear-gradient(135deg, #8B7EC8 0%, #6658a8 100%);
+    }
+    .btn-generate.violet-btn:hover:not(:disabled) { box-shadow: 0 10px 28px rgba(139,126,200,0.3); }
 
     /* ─── RESULT ─── */
     .result-section {
@@ -597,8 +644,8 @@
       white-space: nowrap;
     }
     .result-title em { font-style: italic; color: var(--gold); }
+    .result-title .accent-violet { font-style: italic; color: var(--violet); }
     .result-line { flex: 1; height: 1px; background: linear-gradient(to right, var(--border2), transparent); }
-
     .result-card {
       background: var(--surface); border: 1px solid var(--border);
       border-radius: 14px; overflow: hidden;
@@ -621,7 +668,6 @@
     .result-meta-label { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); }
     .result-meta-value { font-size: 15px; color: var(--text); font-weight: 500; }
     .result-meta-dim { font-size: 12px; color: var(--gold-dim); font-family: monospace; letter-spacing: 0.06em; }
-
     .btn-dl {
       margin-top: auto; display: flex; align-items: center; justify-content: center; gap: 8px;
       padding: 13px; border: 1px solid var(--gold-dim); border-radius: 9px;
@@ -631,7 +677,172 @@
       cursor: pointer; transition: background 0.2s, border-color 0.2s;
     }
     .btn-dl:hover { background: var(--gold-glow); border-color: var(--gold); }
+    .btn-dl.violet-dl { border-color: rgba(139,126,200,0.4); color: var(--violet); }
+    .btn-dl.violet-dl:hover { background: var(--violet-dim); border-color: var(--violet); }
     .btn-dl svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+    /* ─── HAIRSTYLE SECTION (redesigned) ─── */
+    .hairstyle-section {
+      padding: 80px 0 140px; position: relative;
+    }
+    .hs-studio-wrap {
+      max-width: 1160px; margin: 0 auto; padding: 0 40px;
+    }
+
+    /* Before/After upload layout */
+    .hs-workspace {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 18px; overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+    }
+    /* Top: before/after side by side */
+    .hs-images-row {
+      display: grid; grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid var(--border);
+    }
+    .hs-image-pane {
+      position: relative; min-height: 380px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--surface2); overflow: hidden;
+    }
+    .hs-image-pane + .hs-image-pane {
+      border-left: 1px solid var(--border);
+    }
+    .hs-pane-label {
+      position: absolute; top: 16px; left: 16px;
+      font-size: 10px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase;
+      background: rgba(8,8,12,0.7); backdrop-filter: blur(8px);
+      border: 1px solid var(--border2); border-radius: 6px;
+      padding: 5px 10px; color: var(--muted); z-index: 2;
+    }
+    .hs-pane-label.after-label { color: var(--violet); border-color: rgba(139,126,200,0.3); }
+
+    /* Upload zone (before pane) */
+    .hs-upload-zone {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background 0.3s;
+    }
+    .hs-upload-zone::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(139,126,200,0.05) 0%, transparent 65%);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .hs-upload-zone:hover::before { opacity: 1; }
+    .hs-upload-zone.drag-over { background: rgba(139,126,200,0.04); }
+    .hs-upload-hint {
+      text-align: center; pointer-events: none;
+      display: flex; flex-direction: column; align-items: center; gap: 16px;
+    }
+    .hs-upload-icon {
+      width: 64px; height: 64px; border: 1px solid var(--border2); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--surface3); transition: all 0.3s;
+    }
+    .hs-upload-zone:hover .hs-upload-icon { border-color: rgba(139,126,200,0.5); background: var(--violet-dim); }
+    .hs-upload-icon svg { width: 26px; height: 26px; stroke: var(--muted); fill: none; stroke-width: 1.5; transition: stroke 0.3s; }
+    .hs-upload-zone:hover .hs-upload-icon svg { stroke: var(--violet); }
+    .hs-upload-hint-title { font-size: 15px; font-weight: 500; color: var(--text); }
+    .hs-upload-hint-sub { font-size: 12px; color: var(--muted); }
+    .hs-preview-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: 20px; }
+    .hs-preview-replace {
+      position: absolute; bottom: 14px; right: 14px; z-index: 3;
+      background: rgba(8,8,12,0.8); backdrop-filter: blur(8px);
+      border: 1px solid var(--border2); border-radius: 7px;
+      padding: 7px 12px; font-size: 11px; letter-spacing: 0.1em; color: var(--muted);
+      cursor: pointer; transition: color 0.2s, border-color 0.2s;
+    }
+    .hs-preview-replace:hover { color: var(--violet); border-color: rgba(139,126,200,0.4); }
+
+    /* After pane: loading + result */
+    .hs-after-placeholder {
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+      text-align: center; padding: 20px;
+    }
+    .hs-after-icon {
+      width: 64px; height: 64px; border: 1px solid rgba(139,126,200,0.2); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--violet-dim);
+    }
+    .hs-after-icon svg { width: 28px; height: 28px; stroke: var(--violet); fill: none; stroke-width: 1.5; opacity: 0.6; }
+    .hs-after-label { font-size: 14px; color: var(--muted); }
+    .hs-loading-shimmer {
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, var(--surface2) 25%, var(--surface3) 50%, var(--surface2) 75%);
+      background-size: 200% 100%;
+      animation: hsShimmer 1.5s ease-in-out infinite;
+    }
+    .hs-result-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: 20px; }
+
+    /* Bottom: style picker + generate */
+    .hs-bottom {
+      padding: 28px 36px 36px;
+    }
+    .hs-bottom-label {
+      font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase;
+      color: rgba(139,126,200,0.7); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .hs-bottom-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .hs-styles-row {
+      display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+    .hs-styles-row::-webkit-scrollbar { display: none; }
+    .hs-style-card {
+      flex-shrink: 0; width: 110px; padding: 16px 12px;
+      border: 1px solid var(--border); border-radius: 12px;
+      background: var(--surface2); cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center;
+      transition: border-color 0.25s, background 0.25s, transform 0.15s, box-shadow 0.25s;
+    }
+    .hs-style-card:hover {
+      border-color: var(--border2); transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    }
+    .hs-style-card.active {
+      border-color: rgba(139,126,200,0.5);
+      background: var(--violet-dim);
+      box-shadow: 0 0 0 3px rgba(139,126,200,0.08);
+    }
+    .hs-style-icon {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: var(--surface3); border: 1px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .hs-style-card.active .hs-style-icon,
+    .hs-style-card:hover .hs-style-icon {
+      border-color: rgba(139,126,200,0.4); background: var(--violet-dim);
+    }
+    .hs-style-icon svg { width: 24px; height: 24px; stroke: var(--muted); fill: none; stroke-width: 1.5; transition: stroke 0.3s; }
+    .hs-style-card.active .hs-style-icon svg,
+    .hs-style-card:hover .hs-style-icon svg { stroke: var(--violet); }
+    .hs-style-name { font-size: 13px; font-weight: 600; color: var(--text); }
+    .hs-style-eng { font-size: 10px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: -4px; }
+
+    /* Generate row */
+    .hs-generate-row {
+      display: flex; align-items: center; gap: 16px; margin-top: 20px;
+    }
+    .hs-generate-row .btn-generate { flex: 1; padding: 16px; }
+    .hs-download-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 16px 20px; border: 1px solid rgba(139,126,200,0.4); border-radius: 10px;
+      background: transparent; color: var(--violet);
+      font-family: 'Syne', sans-serif; font-size: 12px;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      cursor: pointer; transition: background 0.2s, border-color 0.2s; flex-shrink: 0;
+    }
+    .hs-download-btn:hover { background: var(--violet-dim); border-color: var(--violet); }
+    .hs-download-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .hs-status-row {
+      display: flex; align-items: center; gap: 16px; min-height: 24px;
+    }
+    .hs-status-row .processing-overlay { margin: 0; }
+    .hs-status-row .processing-ring { border-top-color: var(--violet); }
+    .hs-status-row .error-bar { flex: 1; margin: 0; }
 
     /* ─── FOOTER ─── */
     footer {
@@ -643,16 +854,11 @@
       font-family: 'Fraunces', serif; font-size: 18px; font-weight: 300;
       letter-spacing: 0.22em; color: var(--gold-dim); text-transform: uppercase;
     }
-    .footer-center {
-      font-size: 13px; color: var(--muted); letter-spacing: 0.06em; text-align: center;
-    }
-    .footer-right {
-      text-align: right; font-size: 12px; color: var(--muted); letter-spacing: 0.08em;
-    }
+    .footer-center { font-size: 13px; color: var(--muted); letter-spacing: 0.06em; text-align: center; }
+    .footer-right { text-align: right; font-size: 12px; color: var(--muted); letter-spacing: 0.08em; }
 
     /* ─── UTILITIES ─── */
     .hidden { display: none !important; }
-
     .reveal {
       opacity: 0; transform: translateY(28px);
       transition: opacity 0.75s ease, transform 0.75s ease;
@@ -662,13 +868,25 @@
     .reveal-d2 { transition-delay: 0.18s; }
     .reveal-d3 { transition-delay: 0.28s; }
     .reveal-d4 { transition-delay: 0.38s; }
+    .reveal-d5 { transition-delay: 0.46s; }
+    .reveal-d6 { transition-delay: 0.54s; }
 
     @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
     @keyframes spin { to { transform: rotate(360deg); } }
     @keyframes pulse { 0%, 100% { opacity: 0.6; transform: translate(-50%,-50%) scale(1); } 50% { opacity: 1; transform: translate(-50%,-50%) scale(1.08); } }
     @keyframes scrollPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.9; } }
+    @keyframes hsShimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
     /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .feature-card:nth-child(1) { border-radius: 16px 0 0 0; }
+      .feature-card:nth-child(2) { border-radius: 0 16px 0 0; }
+      .feature-card:nth-child(3) { border-radius: 0; }
+      .feature-card:nth-child(4) { border-radius: 0; }
+      .feature-card:nth-child(5) { border-radius: 0 0 0 16px; }
+      .feature-card:nth-child(6) { border-radius: 0 0 16px 0; }
+    }
     @media (max-width: 960px) {
       nav { padding: 0 24px; }
       .nav-links { display: none; }
@@ -691,6 +909,18 @@
       .result-side { width: 100%; border-left: none; border-top: 1px solid var(--border); }
       footer { grid-template-columns: 1fr; text-align: center; gap: 12px; padding: 32px 24px; }
       .footer-right { text-align: center; }
+      /* Hairstyle responsive */
+      .hs-studio-wrap { padding: 0 20px; }
+      .hs-images-row { grid-template-columns: 1fr; }
+      .hs-image-pane + .hs-image-pane { border-left: none; border-top: 1px solid var(--border); }
+      .hs-bottom { padding: 20px 20px 28px; }
+      .hs-generate-row { flex-direction: column; }
+      .hs-download-btn { width: 100%; }
+    }
+    @media (max-width: 480px) {
+      .hero-actions { flex-direction: column; width: 100%; }
+      .btn-hero-primary, .btn-hero-violet, .btn-hero-ghost { width: 100%; justify-content: center; }
+      .hs-style-card { width: 90px; }
     }
   </style>
 </head>
@@ -698,14 +928,15 @@
 
   <!-- ─── NAVIGATION ─── -->
   <nav id="mainNav">
-    <a class="nav-logo" href="javascript:void(0)" onclick="window.scrollTo({top:0,behavior:'smooth'})">Visage</a>
+    <a class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">Visage</a>
     <ul class="nav-links">
-      <li><a href="javascript:void(0)" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">产品功能</a></li>
-      <li><a href="javascript:void(0)" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">使用流程</a></li>
-      <li><a href="javascript:void(0)" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">套餐</a></li>
-      <li><a href="javascript:void(0)" onclick="document.getElementById('studio').scrollIntoView({behavior:'smooth'})">生成工具</a></li>
+      <li><a onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">功能</a></li>
+      <li><a onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">流程</a></li>
+      <li><a onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">套餐</a></li>
+      <li><a onclick="document.getElementById('studio').scrollIntoView({behavior:'smooth'})">证件照</a></li>
+      <li><a class="accent" onclick="document.getElementById('hairstyle').scrollIntoView({behavior:'smooth'})">AI 换发型</a></li>
     </ul>
-    <a class="nav-cta" href="javascript:void(0)" onclick="document.getElementById('studio').scrollIntoView({behavior:'smooth'})">立即生成</a>
+    <a class="nav-cta" onclick="document.getElementById('studio').scrollIntoView({behavior:'smooth'})">立即生成</a>
   </nav>
 
   <!-- ─── HERO ─── -->
@@ -714,28 +945,44 @@
       <div class="hero-grid"></div>
       <div class="hero-spot"></div>
       <div class="hero-spot-2"></div>
+      <div class="hero-spot-3"></div>
     </div>
 
     <div class="hero-content">
       <div class="hero-eyebrow">AI Powered Portrait Studio</div>
 
       <h1>
-        专业证件照<br>
-        <em>即刻生成</em>
+        证件照·发型<br>
+        <em>一站</em><span class="accent-violet">搞定</span>
         <span class="line2">触手可及</span>
       </h1>
 
+      <div class="hero-pills">
+        <div class="hero-pill gold">
+          <div class="hero-pill-dot"></div>
+          AI 人像抠图 · 14 种规格
+        </div>
+        <div class="hero-pill violet">
+          <div class="hero-pill-dot"></div>
+          AI 换发型 · 6 种风格
+        </div>
+      </div>
+
       <p class="hero-desc">
-        上传您的照片，AI 精准分离人像，<br>
-        自动匹配证件规格与底色，秒出高质量证件照。
+        专业证件照一键生成，AI 换发型秒速呈现。<br>
+        上传照片，其余交给 VISAGE。
       </p>
 
       <div class="hero-actions">
-        <a class="btn-hero-primary" href="javascript:void(0)" onclick="document.getElementById('studio').scrollIntoView({behavior:'smooth'})">
-          开始生成
+        <a class="btn-hero-primary" onclick="document.getElementById('studio').scrollIntoView({behavior:'smooth'})">
+          生成证件照
           <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
-        <a class="btn-hero-ghost" href="javascript:void(0)" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">了解功能</a>
+        <a class="btn-hero-violet" onclick="document.getElementById('hairstyle').scrollIntoView({behavior:'smooth'})">
+          AI 换发型
+          <svg viewBox="0 0 24 24"><path d="M12 2C8 2 5 5 5 9c0 2.4 1 4.5 2.7 6l.3.3V18h8v-2.7l.3-.3C17.9 13.5 19 11.4 19 9c0-4-3-7-7-7z"/><path d="M9 21h6"/></svg>
+        </a>
+        <a class="btn-hero-ghost" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">了解功能</a>
       </div>
     </div>
 
@@ -750,7 +997,7 @@
     <div class="features-header reveal">
       <div class="section-eyebrow">产品功能</div>
       <h2 class="section-title">为什么选择<br><em>VISAGE</em></h2>
-      <p class="section-sub">从人像识别到规格输出，每一步都经过精心设计，让证件照生成变得简单而专业。</p>
+      <p class="section-sub">从证件照到发型定制，每一项 AI 能力都为你的形象而生。</p>
     </div>
 
     <div class="features-grid">
@@ -781,13 +1028,31 @@
         <div class="feature-desc">选择证件类型，系统自动应用合规背景色，蓝底白底精准对应，告别手工调色。</div>
       </div>
 
-      <div class="feature-card reveal reveal-d4">
+      <div class="feature-card violet-card reveal reveal-d4">
         <div class="feature-num">04</div>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8 2 5 5 5 9c0 2.4 1 4.5 2.7 6l.3.3V18h8v-2.7l.3-.3C17.9 13.5 19 11.4 19 9c0-4-3-7-7-7z"/><path d="M9 21h6"/></svg>
+        </div>
+        <div class="feature-name">AI 智能换发型</div>
+        <div class="feature-desc">六款精选发型风格，GPT-Image 驱动，上传照片秒换新造型，效果自然逼真。</div>
+      </div>
+
+      <div class="feature-card reveal reveal-d5">
+        <div class="feature-num">05</div>
         <div class="feature-icon">
           <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
         </div>
         <div class="feature-name">处理速度迅速</div>
-        <div class="feature-desc">高效推理引擎驱动，秒级完成人像分离与背景合成，秒级处理即可取图。</div>
+        <div class="feature-desc">高效推理引擎驱动，秒级完成人像分离与背景合成，无需等待即可取图。</div>
+      </div>
+
+      <div class="feature-card reveal reveal-d6">
+        <div class="feature-num">06</div>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div class="feature-name">隐私安全保障</div>
+        <div class="feature-desc">照片仅用于本次处理，不存储、不上传第三方，数据安全可信赖。</div>
       </div>
     </div>
   </section>
@@ -796,28 +1061,58 @@
   <section class="how" id="how">
     <div class="how-header reveal">
       <div class="section-eyebrow">使用流程</div>
-      <h2 class="section-title">三步完成<br><em>专业证件照</em></h2>
-      <p class="section-sub">从上传到下载，全程不超过 30 秒。</p>
+      <h2 class="section-title">三步完成<br><em>专业效果</em></h2>
+      <p class="section-sub">无论是证件照还是 AI 换发型，全程不超过 60 秒。</p>
     </div>
 
-    <div class="how-steps">
-      <div class="how-step reveal reveal-d1">
-        <div class="how-step-num">1</div>
-        <div class="how-step-title">上传照片</div>
-        <div class="how-step-desc">点击或拖拽上传您的正面人像照片，支持 JPG / PNG 格式，建议使用清晰正面照。</div>
-        <span class="how-step-tag">Upload</span>
+    <div class="how-tabs reveal">
+      <button class="how-tab active" id="tabIdPhoto" onclick="switchTab('idphoto')">证件照</button>
+      <button class="how-tab" id="tabHair" onclick="switchTab('hair')">AI 换发型</button>
+    </div>
+
+    <div class="how-panel active" id="panelIdPhoto">
+      <div class="how-steps">
+        <div class="how-step reveal reveal-d1">
+          <div class="how-step-num">1</div>
+          <div class="how-step-title">上传照片</div>
+          <div class="how-step-desc">点击或拖拽上传正面人像照片，支持 JPG / PNG 格式，建议使用清晰正面照。</div>
+          <span class="how-step-tag">Upload</span>
+        </div>
+        <div class="how-step reveal reveal-d2">
+          <div class="how-step-num">2</div>
+          <div class="how-step-title">配置参数</div>
+          <div class="how-step-desc">选择证件类型，系统自动匹配规格与底色。也可手动指定尺寸、背景色和抠图模型。</div>
+          <span class="how-step-tag">Configure</span>
+        </div>
+        <div class="how-step reveal reveal-d3">
+          <div class="how-step-num">3</div>
+          <div class="how-step-title">生成下载</div>
+          <div class="how-step-desc">点击生成，AI 秒级处理完成，预览满意后一键下载高质量证件照文件。</div>
+          <span class="how-step-tag">Download</span>
+        </div>
       </div>
-      <div class="how-step reveal reveal-d2">
-        <div class="how-step-num">2</div>
-        <div class="how-step-title">配置参数</div>
-        <div class="how-step-desc">选择证件类型，系统自动匹配规格与底色。也可手动指定尺寸、背景色和抠图模型。</div>
-        <span class="how-step-tag">Configure</span>
-      </div>
-      <div class="how-step reveal reveal-d3">
-        <div class="how-step-num">3</div>
-        <div class="how-step-title">生成下载</div>
-        <div class="how-step-desc">点击生成，AI 秒级处理完成，预览满意后一键下载高质量证件照文件。</div>
-        <span class="how-step-tag">Download</span>
+    </div>
+
+    <div class="how-panel" id="panelHair">
+      <div class="how-steps violet-steps">
+        <div class="how-step">
+          <div class="how-step-num">1</div>
+          <div class="how-step-title">上传人像</div>
+          <div class="how-step-desc">上传包含清晰人脸的照片，系统会在左侧预览原图，建议正面照效果最佳。</div>
+          <span class="how-step-tag">Upload</span>
+        </div>
+        <div class="how-step">
+          <div class="how-step-num">2</div>
+          <div class="how-step-title">选择发型</div>
+          <div class="how-step-desc">从六款精选风格中挑选心仪发型：单马尾、波浪头、爆炸头、大背头、短发、中分。</div>
+          <span class="how-step-tag">Select Style</span>
+        </div>
+        <div class="how-step">
+          <div class="how-step-num">3</div>
+          <div class="how-step-title">生成对比</div>
+          <div class="how-step-desc">AI 处理完成后，右侧即刻呈现换发型结果，左右对比原图，满意即可下载。</div>
+          <span class="how-step-tag">Compare & Save</span>
+        </div>
       </div>
     </div>
   </section>
@@ -831,7 +1126,6 @@
     </div>
 
     <div class="pricing-grid">
-      <!-- Free -->
       <div class="pricing-card featured reveal reveal-d1">
         <div class="pricing-badge">当前可用</div>
         <div class="pricing-plan">免费计划</div>
@@ -857,6 +1151,11 @@
           </li>
           <li>
             <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            AI 换发型（6 款风格）
+            <span class="feature-badge">NEW</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
             高质量 JPEG 输出
           </li>
           <li>
@@ -864,10 +1163,9 @@
             隐私安全保障
           </li>
         </ul>
-        <a class="pricing-cta primary" href="javascript:void(0)" onclick="document.getElementById('studio').scrollIntoView({behavior:'smooth'})">立即免费使用</a>
+        <a class="pricing-cta primary" onclick="document.getElementById('studio').scrollIntoView({behavior:'smooth'})">立即免费使用</a>
       </div>
 
-      <!-- Pro -->
       <div class="pricing-card reveal reveal-d2">
         <div class="pricing-badge soon">即将推出</div>
         <div class="pricing-plan">专业版</div>
@@ -875,30 +1173,12 @@
         <div class="pricing-period">更多强大功能 · 持续开发中</div>
         <div class="pricing-divider"></div>
         <ul class="pricing-features">
-          <li class="dimmed">
-            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-            所有免费功能
-          </li>
-          <li class="dimmed">
-            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-            批量图片处理
-          </li>
-          <li class="dimmed">
-            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-            多人同照检测
-          </li>
-          <li class="dimmed">
-            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-            高清无损输出
-          </li>
-          <li class="dimmed">
-            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-            美化增强算法
-          </li>
-          <li class="dimmed">
-            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-            API 接口调用
-          </li>
+          <li class="dimmed"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>所有免费功能</li>
+          <li class="dimmed"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>批量图片处理</li>
+          <li class="dimmed"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>更多发型风格（12+）</li>
+          <li class="dimmed"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>高清无损输出</li>
+          <li class="dimmed"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>美化增强算法</li>
+          <li class="dimmed"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>API 接口调用</li>
         </ul>
         <div class="pricing-cta ghost">即将推出</div>
       </div>
@@ -908,7 +1188,7 @@
   <!-- ─── STUDIO / WORKSPACE ─── -->
   <section class="studio-section" id="studio">
     <div class="studio-header reveal">
-      <div class="section-eyebrow">生成工具</div>
+      <div class="section-eyebrow">证件照生成</div>
       <h2 class="section-title">VISAGE <em>Studio</em></h2>
       <p class="section-sub" style="margin:0 auto;">上传照片，配置参数，一键输出专业证件照。</p>
     </div>
@@ -920,7 +1200,7 @@
         <div class="upload-panel">
           <div class="panel-label">上传照片</div>
           <div class="upload-zone" id="uploadZone">
-            <input type="file" id="fileInput" accept="image/*" hidden >
+            <input type="file" id="fileInput" accept="image/*" hidden>
             <div class="upload-hint" id="uploadHint">
               <div class="upload-icon-wrap">
                 <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
@@ -930,14 +1210,13 @@
                 <p class="upload-hint-sub">JPG / PNG &nbsp;·&nbsp; 建议正面清晰人像</p>
               </div>
             </div>
-            <img id="previewImg" class="preview-img hidden" alt="预览" >
+            <img id="previewImg" class="preview-img hidden" alt="预览">
             <div class="preview-replace hidden" id="previewReplace">更换照片</div>
           </div>
         </div>
 
         <!-- Settings -->
         <div class="settings-panel">
-
           <div class="setting-block">
             <div class="setting-title">背景颜色</div>
             <div class="color-swatches">
@@ -945,7 +1224,7 @@
               <div class="swatch" data-color="#438EF3" style="background:#438EF3;" title="蓝色"></div>
               <div class="swatch" data-color="#D43C3C" style="background:#D43C3C;" title="红色"></div>
               <div class="swatch swatch-custom" title="自定义颜色">
-                <input type="color" id="customColor" value="#FFFFFF" >
+                <input type="color" id="customColor" value="#FFFFFF">
                 <span class="swatch-custom-icon">+</span>
               </div>
             </div>
@@ -976,71 +1255,52 @@
           <div class="setting-block grow">
             <div class="setting-title">照片规格</div>
             <div class="size-list" id="sizeList">
-
               <div class="size-category">标准寸照</div>
               <div class="size-option active" data-value="413x295" data-label="一寸" data-color="#FFFFFF">
-                <span class="size-name">一寸</span>
-                <span class="size-dim">25×35 mm</span>
+                <span class="size-name">一寸</span><span class="size-dim">25×35 mm</span>
               </div>
               <div class="size-option" data-value="579x413" data-label="二寸" data-color="#FFFFFF">
-                <span class="size-name">二寸</span>
-                <span class="size-dim">35×49 mm</span>
+                <span class="size-name">二寸</span><span class="size-dim">35×49 mm</span>
               </div>
               <div class="size-option" data-value="531x378" data-label="小二寸" data-color="#FFFFFF">
-                <span class="size-name">小二寸</span>
-                <span class="size-dim">33×48 mm</span>
+                <span class="size-name">小二寸</span><span class="size-dim">33×48 mm</span>
               </div>
-
               <div class="size-category">国内证件</div>
               <div class="size-option" data-value="378x307" data-label="居民身份证" data-color="#FFFFFF">
-                <span class="size-name">居民身份证</span>
-                <span class="size-dim">26×32 mm</span>
+                <span class="size-name">居民身份证</span><span class="size-dim">26×32 mm</span>
               </div>
               <div class="size-option" data-value="567x390" data-label="护照" data-color="#FFFFFF">
-                <span class="size-name">护照</span>
-                <span class="size-dim">33×48 mm</span>
+                <span class="size-name">护照</span><span class="size-dim">33×48 mm</span>
               </div>
               <div class="size-option" data-value="378x260" data-label="驾驶证" data-color="#FFFFFF">
-                <span class="size-name">驾驶证</span>
-                <span class="size-dim">22×32 mm</span>
+                <span class="size-name">驾驶证</span><span class="size-dim">22×32 mm</span>
               </div>
               <div class="size-option" data-value="567x390" data-label="港澳通行证" data-color="#FFFFFF">
-                <span class="size-name">港澳通行证</span>
-                <span class="size-dim">33×48 mm</span>
+                <span class="size-name">港澳通行证</span><span class="size-dim">33×48 mm</span>
               </div>
               <div class="size-option" data-value="441x358" data-label="社保/医保" data-color="#FFFFFF">
-                <span class="size-name">社保 / 医保</span>
-                <span class="size-dim">26×32 mm</span>
+                <span class="size-name">社保 / 医保</span><span class="size-dim">26×32 mm</span>
               </div>
-
               <div class="size-category">国际签证</div>
               <div class="size-option" data-value="600x600" data-label="美国签证" data-color="#FFFFFF">
-                <span class="size-name">美国签证</span>
-                <span class="size-dim">51×51 mm</span>
+                <span class="size-name">美国签证</span><span class="size-dim">51×51 mm</span>
               </div>
               <div class="size-option" data-value="531x413" data-label="日本签证" data-color="#FFFFFF">
-                <span class="size-name">日本签证</span>
-                <span class="size-dim">35×45 mm</span>
+                <span class="size-name">日本签证</span><span class="size-dim">35×45 mm</span>
               </div>
               <div class="size-option" data-value="531x413" data-label="申根签证" data-color="#FFFFFF">
-                <span class="size-name">申根 / 欧洲签证</span>
-                <span class="size-dim">35×45 mm</span>
+                <span class="size-name">申根 / 欧洲签证</span><span class="size-dim">35×45 mm</span>
               </div>
               <div class="size-option" data-value="531x413" data-label="英国签证" data-color="#FFFFFF">
-                <span class="size-name">英国签证</span>
-                <span class="size-dim">35×45 mm</span>
+                <span class="size-name">英国签证</span><span class="size-dim">35×45 mm</span>
               </div>
               <div class="size-option" data-value="567x390" data-label="加拿大签证" data-color="#FFFFFF">
-                <span class="size-name">加拿大签证</span>
-                <span class="size-dim">35×45 mm</span>
+                <span class="size-name">加拿大签证</span><span class="size-dim">35×45 mm</span>
               </div>
-
               <div class="size-category">考试报名类</div>
               <div class="size-option" data-value="579x413" data-label="考试报名照" data-color="#438EF3">
-                <span class="size-name">考试报名照</span>
-                <span class="size-dim">413 × 579 px</span>
+                <span class="size-name">考试报名照</span><span class="size-dim">413 × 579 px</span>
               </div>
-
             </div>
           </div>
 
@@ -1052,7 +1312,6 @@
             <div id="errorBar" class="error-bar hidden"></div>
             <button class="btn-generate" id="generateBtn" disabled>生成证件照</button>
           </div>
-
         </div>
       </div>
 
@@ -1064,7 +1323,7 @@
         </div>
         <div class="result-card">
           <div class="result-img-wrap">
-            <img id="resultImg" alt="证件照" >
+            <img id="resultImg" alt="证件照">
           </div>
           <div class="result-side">
             <div class="result-meta">
@@ -1096,15 +1355,130 @@
     </div>
   </section>
 
+  <!-- ─── HAIRSTYLE AI (redesigned) ─── -->
+  <section class="hairstyle-section" id="hairstyle">
+    <div class="studio-header reveal">
+      <div class="section-eyebrow violet">AI 换发型</div>
+      <h2 class="section-title">智能<span class="accent-violet">换发型</span></h2>
+      <p class="section-sub" style="margin:0 auto;">上传人像照片，挑选心仪发型，左右对比效果，秒换新造型。</p>
+    </div>
+
+    <div class="hs-studio-wrap">
+      <div class="hs-workspace">
+
+        <!-- Before / After image row -->
+        <div class="hs-images-row">
+          <!-- Before: upload pane -->
+          <div class="hs-image-pane">
+            <div class="hs-pane-label">原图</div>
+            <div class="hs-upload-zone" id="hsUploadZone">
+              <input type="file" id="hsFileInput" accept="image/*" hidden>
+              <div class="hs-upload-hint" id="hsUploadHint">
+                <div class="hs-upload-icon">
+                  <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                </div>
+                <div>
+                  <p class="hs-upload-hint-title">点击或拖拽上传</p>
+                  <p class="hs-upload-hint-sub">JPG / PNG · 建议正面清晰人像</p>
+                </div>
+              </div>
+              <img id="hsPreviewImg" class="hs-preview-img hidden" alt="原图预览">
+            </div>
+            <div class="hs-preview-replace hidden" id="hsPreviewReplace">更换照片</div>
+          </div>
+
+          <!-- After: result pane -->
+          <div class="hs-image-pane" id="hsAfterPane">
+            <div class="hs-pane-label after-label">换发型结果</div>
+            <div class="hs-after-placeholder" id="hsAfterPlaceholder">
+              <div class="hs-after-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2C8 2 5 5 5 9c0 2.4 1 4.5 2.7 6l.3.3V18h8v-2.7l.3-.3C17.9 13.5 19 11.4 19 9c0-4-3-7-7-7z"/><path d="M9 21h6"/></svg>
+              </div>
+              <div class="hs-after-label">生成后在此展示</div>
+            </div>
+            <div class="hs-loading-shimmer hidden" id="hsLoadingShimmer"></div>
+            <img id="hsResultImg" class="hs-result-img hidden" alt="换发型结果">
+          </div>
+        </div>
+
+        <!-- Bottom: style picker + generate -->
+        <div class="hs-bottom">
+          <div class="hs-bottom-label">选择发型风格</div>
+
+          <div class="hs-styles-row" id="hsStylesRow">
+            <div class="hs-style-card active" data-style="ponytail">
+              <div class="hs-style-icon">
+                <svg viewBox="0 0 32 32"><circle cx="14" cy="16" r="6"/><path d="M20 12c2 0 4 3 5 7s0 5-2 6"/><path d="M10 10c2-2 5-3 8-2"/></svg>
+              </div>
+              <div class="hs-style-name">单马尾</div>
+              <div class="hs-style-eng">Ponytail</div>
+            </div>
+            <div class="hs-style-card" data-style="wavy">
+              <div class="hs-style-icon">
+                <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="6"/><path d="M8 9c0 3-2 5-2 8s2 5 2 8"/><path d="M24 9c0 3 2 5 2 8s-2 5-2 8"/></svg>
+              </div>
+              <div class="hs-style-name">波浪头</div>
+              <div class="hs-style-eng">Wavy</div>
+            </div>
+            <div class="hs-style-card" data-style="afro">
+              <div class="hs-style-icon">
+                <svg viewBox="0 0 32 32"><circle cx="16" cy="17" r="5"/><ellipse cx="16" cy="14" rx="11" ry="10" stroke-dasharray="3 2"/></svg>
+              </div>
+              <div class="hs-style-name">爆炸头</div>
+              <div class="hs-style-eng">Afro</div>
+            </div>
+            <div class="hs-style-card" data-style="slickedback">
+              <div class="hs-style-icon">
+                <svg viewBox="0 0 32 32"><circle cx="16" cy="17" r="6"/><path d="M10 11c2-4 7-5 11-3"/><path d="M11 9c2-3 6-4 10-3"/><path d="M12 7c2-2 5-3 8-2"/></svg>
+              </div>
+              <div class="hs-style-name">大背头</div>
+              <div class="hs-style-eng">Slicked Back</div>
+            </div>
+            <div class="hs-style-card" data-style="shorthair">
+              <div class="hs-style-icon">
+                <svg viewBox="0 0 32 32"><circle cx="16" cy="17" r="6"/><path d="M10 14c0-5 3-8 6-8s6 3 6 8"/></svg>
+              </div>
+              <div class="hs-style-name">短发</div>
+              <div class="hs-style-eng">Short Hair</div>
+            </div>
+            <div class="hs-style-card" data-style="middlepart">
+              <div class="hs-style-icon">
+                <svg viewBox="0 0 32 32"><circle cx="16" cy="17" r="6"/><path d="M16 6v5"/><path d="M16 6c-4 0-7 3-8 7"/><path d="M16 6c4 0 7 3 8 7"/></svg>
+              </div>
+              <div class="hs-style-name">中分</div>
+              <div class="hs-style-eng">Middle Part</div>
+            </div>
+          </div>
+
+          <div class="hs-status-row" id="hsStatusRow">
+            <div id="hsProcessingState" class="processing-overlay hidden">
+              <div class="processing-ring"></div>
+              <div class="processing-text">AI 换发型中，请稍候…</div>
+            </div>
+            <div id="hsErrorBar" class="error-bar hidden"></div>
+          </div>
+
+          <div class="hs-generate-row">
+            <button class="btn-generate violet-btn" id="hsGenerateBtn" disabled>生成新发型</button>
+            <button class="hs-download-btn hidden" id="hsDownloadBtn">
+              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              下载
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ─── FOOTER ─── -->
   <footer>
     <div class="footer-logo">Visage</div>
-    <div class="footer-center">© 2026 VISAGE Studio &nbsp;·&nbsp; AI 智能证件照</div>
+    <div class="footer-center">© 2026 VISAGE Studio &nbsp;·&nbsp; AI 智能证件照 &amp; 换发型</div>
     <div class="footer-right">Made for <span style="color:var(--gold-dim);letter-spacing:0.04em;">COMP7530 IT Forum</span> &nbsp;·&nbsp; <span style="font-style:italic;color:var(--text2);">WU Feiyang</span></div>
   </footer>
 
   <script>
-    const API_BASE = `http://${window.location.hostname || 'localhost'}:8000`;
+    const API_BASE = `http://${window.location.hostname || 'localhost'}:8080`;
 
     // Nav scroll effect
     const mainNav = document.getElementById("mainNav");
@@ -1119,7 +1493,17 @@
     }, { threshold: 0.12 });
     revealEls.forEach(el => revealObserver.observe(el));
 
-    // DOM refs
+    // How it works tab switch
+    function switchTab(tab) {
+      const isIdPhoto = tab === 'idphoto';
+      document.getElementById('tabIdPhoto').classList.toggle('active', isIdPhoto);
+      document.getElementById('tabHair').classList.toggle('active', !isIdPhoto);
+      document.getElementById('tabHair').classList.toggle('violet-tab', !isIdPhoto);
+      document.getElementById('panelIdPhoto').classList.toggle('active', isIdPhoto);
+      document.getElementById('panelHair').classList.toggle('active', !isIdPhoto);
+    }
+
+    // ─── STUDIO: ID PHOTO ───
     const uploadZone     = document.getElementById("uploadZone");
     const fileInput      = document.getElementById("fileInput");
     const uploadHint     = document.getElementById("uploadHint");
@@ -1143,7 +1527,6 @@
     let selectedSize  = { value: "413x295", label: "一寸", dim: "25×35 mm" };
     let selectedModel = "modnet_photographic_portrait_matting";
 
-    // Upload
     uploadZone.addEventListener("click", () => fileInput.click());
     previewReplace.addEventListener("click", (e) => { e.stopPropagation(); fileInput.click(); });
     uploadZone.addEventListener("dragover", (e) => { e.preventDefault(); uploadZone.classList.add("drag-over"); });
@@ -1170,7 +1553,6 @@
       errorBar.classList.add("hidden");
     }
 
-    // Color
     document.querySelectorAll(".swatch:not(.swatch-custom)").forEach((s) => {
       s.addEventListener("click", () => {
         document.querySelectorAll(".swatch").forEach((x) => x.classList.remove("active"));
@@ -1191,14 +1573,10 @@
       document.querySelectorAll(".swatch").forEach((x) => x.classList.remove("active"));
       const match = [...document.querySelectorAll(".swatch[data-color]")]
         .find((s) => s.dataset.color.toUpperCase() === color.toUpperCase());
-      if (match) {
-        match.classList.add("active");
-      } else {
-        customColor.closest(".swatch-custom").classList.add("active");
-      }
+      if (match) { match.classList.add("active"); }
+      else { customColor.closest(".swatch-custom").classList.add("active"); }
     }
 
-    // Model
     const modelLabels = {
       "modnet_photographic_portrait_matting": "MODNet 摄影版",
       "hivision_modnet": "HivisionModNet",
@@ -1213,7 +1591,6 @@
       });
     });
 
-    // Size
     document.querySelectorAll(".size-option").forEach((opt) => {
       opt.addEventListener("click", () => {
         document.querySelectorAll(".size-option").forEach((x) => x.classList.remove("active"));
@@ -1228,10 +1605,8 @@
       });
     });
 
-    // Generate
     generateBtn.addEventListener("click", async () => {
       if (!selectedFile) return;
-
       const [height, width] = selectedSize.value.split("x").map(Number);
       const formData = new FormData();
       formData.append("image", selectedFile);
@@ -1257,10 +1632,9 @@
         metaLabel.textContent = selectedSize.label;
         metaDim.textContent   = `${width} × ${height} px`;
         metaColor.textContent  = selectedColor.toUpperCase();
-        metaColorDot.style.background   = selectedColor;
-        metaColorDot.style.borderColor  = selectedColor === "#FFFFFF" ? "var(--border2)" : selectedColor;
-        metaModel.textContent  = modelLabels[selectedModel] || selectedModel;
-
+        metaColorDot.style.background  = selectedColor;
+        metaColorDot.style.borderColor = selectedColor === "#FFFFFF" ? "var(--border2)" : selectedColor;
+        metaModel.textContent = modelLabels[selectedModel] || selectedModel;
         downloadBtn.onclick = () => downloadBase64(data.image, `visage-${selectedSize.label}.jpg`);
 
         resultSection.classList.remove("hidden");
@@ -1285,7 +1659,215 @@
       a.href = url; a.download = filename; a.click();
       URL.revokeObjectURL(url);
     }
+
+    // ─── HAIRSTYLE AI ───
+    (function() {
+      var hsUploadZone     = document.getElementById("hsUploadZone");
+      var hsFileInput      = document.getElementById("hsFileInput");
+      var hsUploadHint     = document.getElementById("hsUploadHint");
+      var hsPreviewImg     = document.getElementById("hsPreviewImg");
+      var hsPreviewReplace = document.getElementById("hsPreviewReplace");
+      var hsGenerateBtn    = document.getElementById("hsGenerateBtn");
+      var hsProcessingState= document.getElementById("hsProcessingState");
+      var hsErrorBar       = document.getElementById("hsErrorBar");
+      var hsLoadingShimmer = document.getElementById("hsLoadingShimmer");
+      var hsResultImg      = document.getElementById("hsResultImg");
+      var hsAfterPlaceholder = document.getElementById("hsAfterPlaceholder");
+      var hsDownloadBtn    = document.getElementById("hsDownloadBtn");
+      var hsStylesRow      = document.getElementById("hsStylesRow");
+
+      var hsSelectedFile  = null;
+      var hsSelectedStyle = "ponytail";
+
+      var hsStyleNames = {
+        ponytail:    "单马尾",
+        wavy:        "波浪头",
+        afro:        "爆炸头",
+        slickedback: "大背头",
+        shorthair:   "短发",
+        middlepart:  "中分"
+      };
+
+      var hsPrompts = {
+        ponytail:    "Change this person's hairstyle to a sleek single high ponytail with the hair pulled up and tied neatly at the back of the head. Keep the person's face, facial features, expression, skin tone, and all clothing exactly the same. Only change the hairstyle. Make it look natural and photorealistic.",
+        wavy:        "Change this person's hairstyle to beautiful long flowing wavy curls cascading down past the shoulders. Keep the person's face, facial features, expression, skin tone, and all clothing exactly the same. Only change the hairstyle. Make it look natural and photorealistic.",
+        afro:        "Change this person's hairstyle to a big, voluminous rounded afro hairstyle with lots of volume and texture. Keep the person's face, facial features, expression, skin tone, and all clothing exactly the same. Only change the hairstyle. Make it look natural and photorealistic.",
+        slickedback: "Change this person's hairstyle to a sleek slicked-back hairstyle with all hair combed straight backward, giving a polished look. Keep the person's face, facial features, expression, skin tone, and all clothing exactly the same. Only change the hairstyle. Make it look natural and photorealistic.",
+        shorthair:   "Change this person's hairstyle to a neat short cropped hairstyle, trimmed close to the head. Keep the person's face, facial features, expression, skin tone, and all clothing exactly the same. Only change the hairstyle. Make it look natural and photorealistic.",
+        middlepart:  "Change this person's hairstyle to a center-parted middle part hairstyle with hair flowing evenly down on both sides of the face. Keep the person's face, facial features, expression, skin tone, and all clothing exactly the same. Only change the hairstyle. Make it look natural and photorealistic."
+      };
+
+      // Upload handlers
+      hsUploadZone.addEventListener("click", function() { hsFileInput.click(); });
+      hsPreviewReplace.addEventListener("click", function(e) { e.stopPropagation(); hsFileInput.click(); });
+      hsUploadZone.addEventListener("dragover", function(e) { e.preventDefault(); hsUploadZone.classList.add("drag-over"); });
+      hsUploadZone.addEventListener("dragleave", function() { hsUploadZone.classList.remove("drag-over"); });
+      hsUploadZone.addEventListener("drop", function(e) {
+        e.preventDefault(); hsUploadZone.classList.remove("drag-over");
+        var file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith("image/")) hsHandleFile(file);
+      });
+      hsFileInput.addEventListener("change", function() { if (hsFileInput.files[0]) hsHandleFile(hsFileInput.files[0]); });
+
+      function hsHandleFile(file) {
+        hsSelectedFile = file;
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          hsPreviewImg.src = e.target.result;
+          hsPreviewImg.classList.remove("hidden");
+          hsPreviewReplace.classList.remove("hidden");
+          hsUploadHint.classList.add("hidden");
+          hsGenerateBtn.disabled = false;
+        };
+        reader.readAsDataURL(file);
+        // Reset after pane
+        hsResultImg.classList.add("hidden");
+        hsResultImg.src = "";
+        hsAfterPlaceholder.style.display = "flex";
+        hsLoadingShimmer.classList.add("hidden");
+        hsDownloadBtn.classList.add("hidden");
+        hsErrorBar.classList.add("hidden");
+      }
+
+      // Style selection
+      hsStylesRow.addEventListener("click", function(e) {
+        var card = e.target.closest(".hs-style-card");
+        if (!card) return;
+        hsStylesRow.querySelectorAll(".hs-style-card").forEach(function(c) { c.classList.remove("active"); });
+        card.classList.add("active");
+        hsSelectedStyle = card.dataset.style;
+      });
+
+      // Register Poe handler
+      if (window.Poe) {
+        window.Poe.registerHandler("hairstyle-handler", function(result, context) {
+          if (result.status === "incomplete") {
+            var incMsg = result.responses && result.responses[0];
+            if (incMsg && incMsg.content) {
+              hsProcessingState.querySelector('.processing-text').textContent = "生成中…";
+            }
+            return;
+          }
+
+          if (result.status === "error") {
+            hsProcessingState.classList.add("hidden");
+            hsGenerateBtn.disabled = false;
+            hsLoadingShimmer.classList.add("hidden");
+            hsAfterPlaceholder.style.display = "flex";
+            var errText = "未知错误";
+            if (result.responses && result.responses.length > 0) {
+              errText = result.responses[0].statusText || result.responses[0].content || errText;
+            }
+            hsErrorBar.textContent = "生成失败：" + errText;
+            hsErrorBar.classList.remove("hidden");
+            return;
+          }
+
+          // Complete: search for image
+          var imgUrl = null;
+          for (var i = 0; i < result.responses.length; i++) {
+            var resp = result.responses[i];
+            if (resp.attachments && resp.attachments.length > 0) {
+              for (var j = 0; j < resp.attachments.length; j++) {
+                if (resp.attachments[j].mimeType && resp.attachments[j].mimeType.startsWith("image/")) {
+                  imgUrl = resp.attachments[j].url; break;
+                }
+              }
+              if (!imgUrl) imgUrl = resp.attachments[0].url;
+              if (imgUrl) break;
+            }
+          }
+
+          hsProcessingState.classList.add("hidden");
+          hsGenerateBtn.disabled = false;
+          hsLoadingShimmer.classList.add("hidden");
+
+          if (imgUrl) {
+            hsAfterPlaceholder.style.display = "none";
+            hsResultImg.src = imgUrl;
+            hsResultImg.classList.remove("hidden");
+            hsDownloadBtn.classList.remove("hidden");
+
+            hsDownloadBtn.onclick = function() {
+              fetch(imgUrl).then(function(r) { return r.blob(); }).then(function(blob) {
+                var blobUrl = URL.createObjectURL(blob);
+                var a = document.createElement("a");
+                a.href = blobUrl;
+                a.download = "visage-hairstyle-" + (context.styleKey || "result") + ".png";
+                document.body.appendChild(a); a.click();
+                document.body.removeChild(a); URL.revokeObjectURL(blobUrl);
+              }).catch(function() {
+                var a = document.createElement("a");
+                a.href = imgUrl;
+                a.download = "visage-hairstyle-" + (context.styleKey || "result") + ".png";
+                document.body.appendChild(a); a.click(); document.body.removeChild(a);
+              });
+            };
+          } else {
+            hsAfterPlaceholder.style.display = "flex";
+            var debugInfo = "";
+            if (result.responses && result.responses.length > 0) {
+              var lastResp = result.responses[result.responses.length - 1];
+              debugInfo = lastResp.content ? " (" + lastResp.content.substring(0, 80) + ")" : "";
+            }
+            hsErrorBar.textContent = "未能生成图片，请重试。" + debugInfo;
+            hsErrorBar.classList.remove("hidden");
+          }
+        });
+      }
+
+      // Generate
+      hsGenerateBtn.addEventListener("click", async function() {
+        if (!hsSelectedFile || !hsSelectedStyle) return;
+
+        if (!window.Poe) {
+          hsErrorBar.textContent = "请在 Poe 平台中使用此功能（需要 Poe Embed API）。";
+          hsErrorBar.classList.remove("hidden");
+          return;
+        }
+
+        hsGenerateBtn.disabled = true;
+        hsProcessingState.classList.remove("hidden");
+        hsErrorBar.classList.add("hidden");
+        hsDownloadBtn.classList.add("hidden");
+        hsAfterPlaceholder.style.display = "none";
+        hsResultImg.classList.add("hidden");
+        hsLoadingShimmer.classList.remove("hidden");
+
+        var prompt = hsPrompts[hsSelectedStyle];
+        try {
+          await window.Poe.sendUserMessage("@GPT-Image-1.5 " + prompt, {
+            handler: "hairstyle-handler",
+            stream: false,
+            openChat: false,
+            attachments: [hsSelectedFile],
+            handlerContext: { styleKey: hsSelectedStyle, styleName: hsStyleNames[hsSelectedStyle] },
+            parameters: { quality: "high", use_high_fidelity: true }
+          });
+        } catch (err) {
+          hsProcessingState.classList.add("hidden");
+          hsGenerateBtn.disabled = false;
+          hsLoadingShimmer.classList.add("hidden");
+          hsAfterPlaceholder.style.display = "flex";
+
+          var errorMsg = "发送失败：";
+          if (err && err.errorType === "USER_REJECTED_CONFIRMATION") {
+            errorMsg += "用户取消了操作。";
+          } else if (err && err.errorType === "ANOTHER_CONFIRMATION_IS_OPEN") {
+            errorMsg += "请先关闭其他确认对话框。";
+          } else {
+            errorMsg += (err && err.message) ? err.message : String(err);
+          }
+          hsErrorBar.textContent = errorMsg;
+          hsErrorBar.classList.remove("hidden");
+        }
+      });
+
+      // Observe reveals in hairstyle section
+      document.querySelectorAll(".hairstyle-section .reveal").forEach(function(el) {
+        revealObserver.observe(el);
+      });
+    })();
   </script>
 </body>
 </html>
-
