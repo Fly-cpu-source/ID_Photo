@@ -1478,7 +1478,9 @@
   </footer>
 
   <script>
-    const API_BASE = '';
+    const API_BASE = window.location.protocol === 'file:'
+      ? 'http://localhost:8080'
+      : `${window.location.protocol}//${window.location.host}`;
 
     // Nav scroll effect
     const mainNav = document.getElementById("mainNav");
