@@ -1,0 +1,121 @@
+# ID Photo - 智能证件照生成
+
+基于 HivisionIDPhotos 核心能力，自研的智能证件照产品。
+
+---
+
+## 功能
+
+- 人像自动抠图
+- 自定义背景颜色
+- 自定义证件照尺寸
+- 前后端分离，接口清晰
+
+---
+
+## 项目结构
+
+```
+ID_Photo/
+├── code/
+│   ├── Backend/        # FastAPI 后端
+│   └── Frontend/       # 前端页面
+└── backup/             # 参考文档
+```
+
+---
+
+## 快速开始
+
+### 1. Clone 仓库
+
+```bash
+git clone https://github.com/Fly-cpu-source/ID_Photo.git
+cd ID_Photo
+```
+
+### 2. 创建虚拟环境
+
+```bash
+# Windows
+python -m venv .venv
+.venv\Scripts\activate
+
+# Mac / Linux
+python -m venv .venv
+source .venv/bin/activate
+```
+
+### 3. 安装依赖
+
+```bash
+pip install -r code/Backend/requirements.txt
+```
+
+> 依赖包含：fastapi、uvicorn、opencv、onnxruntime 等
+
+### 4. 下载模型权重
+
+模型文件较大，不在仓库中，需要手动下载后放到对应目录。
+
+**目录：`code/Backend/hivision/creator/weights/`**
+
+| 文件名 | 说明 |
+|--------|------|
+| `hivision_modnet.onnx` | 轻量抠图模型 |
+| `modnet_photographic_portrait_matting.onnx` | 高质量抠图模型（推荐） |
+| `birefnet-v1-lite.onnx` | BiRefNet 抠图模型 |
+| `rmbg-1.4.onnx` | RMBG 抠图模型 |
+
+**目录：`code/Backend/hivision/creator/retinaface/weights/`**
+
+| 文件名 | 说明 |
+|--------|------|
+| `retinaface-resnet50.onnx` | 人脸检测模型 |
+
+> 模型来源：[HivisionIDPhotos 官方仓库](https://github.com/Zeyi-Lin/HivisionIDPhotos)，在其 Release 页面下载。
+
+### 5. 启动后端
+
+```bash
+cd code/Backend
+uvicorn main:app --reload --port 8080
+```
+
+启动成功后访问：
+- API 文档：`http://localhost:8080/docs`
+
+### 6. 打开前端
+
+直接用浏览器打开 `code/Frontend/index.html` 即可。
+
+---
+
+## API 说明
+
+### POST `/api/generate`
+
+生成证件照。
+
+| 参数 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `image` | file | - | 上传的人像照片 |
+| `bg_color` | string | `#FFFFFF` | 背景颜色（Hex） |
+| `height` | int | `413` | 证件照高度（像素） |
+| `width` | int | `295` | 证件照宽度（像素） |
+| `matting_model` | string | `modnet_photographic_portrait_matting` | 使用的抠图模型 |
+
+返回 Base64 编码的图片。
+
+---
+
+## 常见问题
+
+**Q: 提示 `未检测到人脸`**
+A: 请上传包含清晰正面人脸的照片，避免侧脸、遮挡或模糊。
+
+**Q: 模型加载报错**
+A: 检查模型文件是否放在正确目录，文件名是否完全一致。
+
+**Q: pip 安装失败**
+A: 确保 Python 版本 >= 3.9，建议使用虚拟环境。
