@@ -1,6 +1,6 @@
 # VISAGE — 智能证件照 & AI 换发型
 
-基于 HivisionIDPhotos 核心能力，自研的 AI 形象处理产品，支持专业证件照生成与 AI 换发型两大功能。
+基于 HivisionIDPhotos 核心能力，自研的 AI 形象处理产品，支持专业证件照生成与 AI 换发型两大功能。证件照生成由 **AWS EC2 云端**推理处理，AI 换发型由 GPT-Image 驱动。
 
 ---
 
@@ -8,7 +8,7 @@
 
 - **证件照生成**：AI 精准人像抠图，支持 14 种规格，自定义背景色，4 款抠图模型可选
 - **AI 换发型**：6 款发型风格（单马尾、波浪头、爆炸头、大背头、短发、中分），由 GPT-Image 驱动，Before/After 对比展示
-- 前后端分离，接口清晰，可独立部署
+- 后端部署于 **AWS EC2**，云端推理，前端直接调用公网 HTTPS 接口
 
 ---
 
@@ -74,19 +74,20 @@ pip install -r code/Backend/requirements.txt
 
 > 模型来源：[HivisionIDPhotos 官方仓库](https://github.com/Zeyi-Lin/HivisionIDPhotos)，在其 Release 页面下载。
 
-### 5. 启动后端
+### 5. 启动后端（AWS EC2）
+
+后端已部署于 AWS EC2，由 nginx 反向代理对外提供 HTTPS 服务。本地开发如需自行启动：
 
 ```bash
 cd code/Backend
-uvicorn main:app --reload --port 8080
+uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 
-启动成功后访问：
-- API 文档：`http://localhost:8080/docs`
+云端 API 文档：`https://3.137.203.149/docs`
 
 ### 6. 打开前端
 
-直接用浏览器打开 `code/Frontend/index.html` 即可。
+直接用浏览器打开 `code/Frontend/index.html` 即可，前端默认连接 AWS EC2 云端 API。
 
 > **注意**：AI 换发型功能需在 **Poe 平台**内嵌页面中使用（依赖 Poe Embed API + GPT-Image-1.5）。
 
@@ -134,4 +135,4 @@ A: 确保 Python 版本 >= 3.9，建议使用虚拟环境。
 A: 此功能依赖 Poe Embed API，需在 Poe 平台嵌入页面中使用，直接打开 HTML 文件无法调用。
 
 **Q: 前端连不上后端**
-A: 确认后端已在 8080 端口启动，且浏览器与后端在同一网络下。前端默认连接 `http://localhost:8080`。
+A: 前端默认连接 AWS EC2 云端 `https://3.137.203.149`，确认 EC2 实例正在运行且安全组已开放 443 端口。首次访问浏览器可能提示证书警告，手动信任自签名证书后即可正常使用。
