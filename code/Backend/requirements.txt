@@ -2,6 +2,12 @@ fastapi
 uvicorn[standard]
 python-multipart
 numpy
-onnxruntime
 opencv-python
 pillow
+onnxruntime
+mtcnn-runtime
+requests
+httpx
+gradio
+pandas
+aiofiles

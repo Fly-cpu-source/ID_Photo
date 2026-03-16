@@ -1,15 +1,14 @@
-# ID Photo - 智能证件照生成
+# VISAGE — 智能证件照 & AI 换发型
 
-基于 HivisionIDPhotos 核心能力，自研的智能证件照产品。
+基于 HivisionIDPhotos 核心能力，自研的 AI 形象处理产品，支持专业证件照生成与 AI 换发型两大功能。
 
 ---
 
 ## 功能
 
-- 人像自动抠图
-- 自定义背景颜色
-- 自定义证件照尺寸
-- 前后端分离，接口清晰
+- **证件照生成**：AI 精准人像抠图，支持 14 种规格，自定义背景色，4 款抠图模型可选
+- **AI 换发型**：6 款发型风格（单马尾、波浪头、爆炸头、大背头、短发、中分），由 GPT-Image 驱动，Before/After 对比展示
+- 前后端分离，接口清晰，可独立部署
 
 ---
 
@@ -18,8 +17,8 @@
 ```
 ID_Photo/
 ├── code/
-│   ├── Backend/        # FastAPI 后端
-│   └── Frontend/       # 前端页面
+│   ├── Backend/        # FastAPI 后端（证件照 API）
+│   └── Frontend/       # 前端页面（单文件 HTML）
 └── backup/             # 参考文档
 ```
 
@@ -52,7 +51,7 @@ source .venv/bin/activate
 pip install -r code/Backend/requirements.txt
 ```
 
-> 依赖包含：fastapi、uvicorn、opencv、onnxruntime 等
+依赖包含：fastapi、uvicorn、opencv-python、onnxruntime、mtcnn-runtime、gradio 等。
 
 ### 4. 下载模型权重
 
@@ -89,6 +88,8 @@ uvicorn main:app --reload --port 8080
 
 直接用浏览器打开 `code/Frontend/index.html` 即可。
 
+> **注意**：AI 换发型功能需在 **Poe 平台**内嵌页面中使用（依赖 Poe Embed API + GPT-Image-1.5）。
+
 ---
 
 ## API 说明
@@ -103,15 +104,24 @@ uvicorn main:app --reload --port 8080
 | `bg_color` | string | `#FFFFFF` | 背景颜色（Hex） |
 | `height` | int | `413` | 证件照高度（像素） |
 | `width` | int | `295` | 证件照宽度（像素） |
-| `matting_model` | string | `modnet_photographic_portrait_matting` | 使用的抠图模型 |
+| `matting_model` | string | `modnet_photographic_portrait_matting` | 使用的抠图模型（见下表） |
 
-返回 Base64 编码的图片。
+**可用抠图模型：**
+
+| 值 | 说明 |
+|----|------|
+| `modnet_photographic_portrait_matting` | MODNet 摄影版（默认推荐） |
+| `hivision_modnet` | HivisionModNet，证件照优化 |
+| `birefnet-v1-lite` | BiRefNet Lite，边缘精细 |
+| `rmbg-1.4` | RMBG 1.4，背景去除专项 |
+
+返回 JSON：`{ "image": "<base64>" }`
 
 ---
 
 ## 常见问题
 
-**Q: 提示 `未检测到人脸`**
+**Q: 提示「未检测到人脸」**
 A: 请上传包含清晰正面人脸的照片，避免侧脸、遮挡或模糊。
 
 **Q: 模型加载报错**
@@ -119,3 +129,9 @@ A: 检查模型文件是否放在正确目录，文件名是否完全一致。
 
 **Q: pip 安装失败**
 A: 确保 Python 版本 >= 3.9，建议使用虚拟环境。
+
+**Q: AI 换发型功能无法使用**
+A: 此功能依赖 Poe Embed API，需在 Poe 平台嵌入页面中使用，直接打开 HTML 文件无法调用。
+
+**Q: 前端连不上后端**
+A: 确认后端已在 8080 端口启动，且浏览器与后端在同一网络下。前端默认连接 `http://localhost:8080`。
