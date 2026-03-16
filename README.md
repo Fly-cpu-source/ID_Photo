@@ -1,6 +1,6 @@
 # VISAGE — 智能证件照 & AI 换发型
 
-基于 HivisionIDPhotos 核心能力，自研的 AI 形象处理产品，支持专业证件照生成与 AI 换发型两大功能。证件照生成由 **AWS EC2 云端**推理处理，AI 换发型由 GPT-Image 驱动。
+基于 HivisionIDPhotos 核心能力的 AI 形象处理产品，支持专业证件照生成与 AI 换发型两大功能。证件照生成由 **AWS EC2 云端**推理处理，AI 换发型由 GPT-Image 驱动。
 
 ---
 
