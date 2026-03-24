@@ -12,7 +12,7 @@ An AI-powered portrait tool built on [HivisionIDPhotos](https://github.com/Zeyi-
 
 | Original Photo | ID Photo Result |
 |:-:|:-:|
-| <img src="origin.png" height="320"/> | <img src="ID_Photo.jpg" height="320"/> |
+| <img src="origin.png" width="260"/> | <img src="ID_Photo.jpg" width="260"/> |
 
 ### AI Hairstyle Before & After
 
