@@ -93,7 +93,7 @@ nohup uvicorn main:app --host 127.0.0.1 --port 8000 &
 sudo systemctl start nginx
 ```
 
-> If running locally, update `API_BASE` in `code/Frontend/index.html` from `https://18.216.62.238` to `http://localhost:8000`.
+> If running locally, update `API_BASE` in `code/Frontend/index.html` from `https://3.133.83.15` to `http://localhost:8000`.
 
 ### 6. Open the Frontend
 
@@ -145,4 +145,4 @@ A: Ensure Python >= 3.9 and use a virtual environment.
 A: This feature requires the Poe Embed API. It only works when the page is embedded inside a Poe bot — not when opened as a local file.
 
 **Q: Frontend cannot connect to backend**
-A: The frontend points to `https://18.216.62.238` (AWS EC2). If the EC2 instance is stopped, run the backend locally and update `API_BASE` in `index.html` to `http://localhost:8000`. On first visit to the EC2 HTTPS endpoint, the browser may show a certificate warning — click "Advanced" and proceed to trust the self-signed certificate.
+A: The frontend points to `https://3.133.83.15` (AWS EC2). If the EC2 instance is stopped, run the backend locally and update `API_BASE` in `index.html` to `http://localhost:8000`. On first visit to the EC2 HTTPS endpoint, the browser may show a certificate warning — click "Advanced" and proceed to trust the self-signed certificate.
