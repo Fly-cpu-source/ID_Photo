@@ -10,9 +10,9 @@ An AI-powered portrait tool built on [HivisionIDPhotos](https://github.com/Zeyi-
 
 ### ID Photo Generation
 
-| Original Photo | ID Photo Result |
-|:-:|:-:|
-| <img src="origin.png" width="260"/> | <img src="ID_Photo.jpg" width="260"/> |
+| Original Photo | | ID Photo Result |
+|:-:|:-:|:-:|
+| <img src="origin.png" width="260"/> | **→** | <img src="ID_Photo.jpg" width="260"/> |
 
 ### AI Hairstyle Before & After
 
