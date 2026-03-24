@@ -21,7 +21,11 @@ An AI-powered portrait tool built on [HivisionIDPhotos](https://github.com/Zeyi-
 ### AI Hairstyle Before & After
 
 <div align="center">
-<img src="AI_Hair.png" width="620"/>
+
+| Original Photo | | AI Hairstyle Result |
+|:-:|:-:|:-:|
+| <img src="origin.png" width="260"/> | **→** | <img src="AI_Hair.png" width="260"/> |
+
 </div>
 
 ---
