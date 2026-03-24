@@ -6,6 +6,19 @@ An AI-powered portrait tool built on [HivisionIDPhotos](https://github.com/Zeyi-
 
 ---
 
+## Demo
+
+### Original Photo
+![Original](origin.png)
+
+### ID Photo Result
+![ID Photo](ID_Photo.jpg)
+
+### AI Hairstyle Before & After
+![AI Hairstyle](AI_Hair.png)
+
+---
+
 ## Features
 
 - **ID Photo Generation** — AI-powered portrait matting, 14 standard sizes, custom background color, 4 matting models
