@@ -1,39 +1,42 @@
-# VISAGE — 智能证件照 & AI 换发型
+# VISAGE — AI ID Photo & Hairstyle Studio
 
-基于 HivisionIDPhotos 核心能力的 AI 形象处理产品，支持专业证件照生成与 AI 换发型两大功能。证件照生成由 **AWS EC2 云端**推理处理，AI 换发型由 GPT-Image 驱动。
+An AI-powered portrait tool built on [HivisionIDPhotos](https://github.com/Zeyi-Lin/HivisionIDPhotos), offering two core features: professional ID photo generation and AI hairstyle transformation.
 
----
-
-## 功能
-
-- **证件照生成**：AI 精准人像抠图，支持 14 种规格，自定义背景色，4 款抠图模型可选
-- **AI 换发型**：6 款发型风格（单马尾、波浪头、爆炸头、大背头、短发、中分），由 GPT-Image 驱动，Before/After 对比展示
-- 后端部署于 **AWS EC2**，云端推理，前端直接调用公网 HTTPS 接口
+> **Note:** The AWS EC2 backend is currently **stopped** to avoid incurring additional cloud costs. To run the ID photo feature, deploy the backend locally or restart the EC2 instance (see [Running the Backend](#5-run-the-backend) below).
 
 ---
 
-## 项目结构
+## Features
+
+- **ID Photo Generation** — AI-powered portrait matting, 14 standard sizes, custom background color, 4 matting models
+- **AI Hairstyle** — 6 hairstyle styles (ponytail, wavy, afro, slicked-back, short, middle part), powered by GPT-Image via Poe Embed API, before/after comparison view
+- Backend deployed on **AWS EC2** with nginx reverse proxy (HTTPS); frontend calls the public API directly
+
+---
+
+## Project Structure
 
 ```
 ID_Photo/
 ├── code/
-│   ├── Backend/        # FastAPI 后端（证件照 API）
-│   └── Frontend/       # 前端页面（单文件 HTML）
-└── backup/             # 参考文档
+│   ├── Backend/        # FastAPI backend (ID photo API)
+│   └── Frontend/       # Single-file HTML frontend
+├── EC2/                # Deployment package for AWS EC2
+└── backup/             # Reference files
 ```
 
 ---
 
-## 快速开始
+## Getting Started
 
-### 1. Clone 仓库
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/Fly-cpu-source/ID_Photo.git
 cd ID_Photo
 ```
 
-### 2. 创建虚拟环境
+### 2. Create a Virtual Environment
 
 ```bash
 # Windows
@@ -45,94 +48,101 @@ python -m venv .venv
 source .venv/bin/activate
 ```
 
-### 3. 安装依赖
+### 3. Install Dependencies
 
 ```bash
 pip install -r code/Backend/requirements.txt
 ```
 
-依赖包含：fastapi、uvicorn、opencv-python、onnxruntime、mtcnn-runtime、gradio 等。
+Key dependencies: `fastapi`, `uvicorn`, `opencv-python`, `onnxruntime`, `numpy`, `pillow`, `python-multipart`
 
-### 4. 下载模型权重
+### 4. Download Model Weights
 
-模型文件较大，不在仓库中，需要手动下载后放到对应目录。
+Model files are not included in this repository (too large). Download them manually and place in the correct directories.
 
-**目录：`code/Backend/hivision/creator/weights/`**
+**Directory: `code/Backend/hivision/creator/weights/`**
 
-| 文件名 | 说明 |
-|--------|------|
-| `hivision_modnet.onnx` | 轻量抠图模型 |
-| `modnet_photographic_portrait_matting.onnx` | 高质量抠图模型（推荐） |
-| `birefnet-v1-lite.onnx` | BiRefNet 抠图模型 |
-| `rmbg-1.4.onnx` | RMBG 抠图模型 |
+| File | Description |
+|------|-------------|
+| `hivision_modnet.onnx` | Lightweight matting model |
+| `modnet_photographic_portrait_matting.onnx` | High-quality matting model (recommended default) |
+| `birefnet-v1-lite.onnx` | BiRefNet matting model |
+| `rmbg-1.4.onnx` | RMBG background removal model |
 
-**目录：`code/Backend/hivision/creator/retinaface/weights/`**
+**Directory: `code/Backend/hivision/creator/retinaface/weights/`**
 
-| 文件名 | 说明 |
-|--------|------|
-| `retinaface-resnet50.onnx` | 人脸检测模型 |
+| File | Description |
+|------|-------------|
+| `retinaface-resnet50.onnx` | Face detection model |
 
-> 模型来源：[HivisionIDPhotos 官方仓库](https://github.com/Zeyi-Lin/HivisionIDPhotos)，在其 Release 页面下载。
+> Download from the [HivisionIDPhotos official releases](https://github.com/Zeyi-Lin/HivisionIDPhotos).
 
-### 5. 启动后端（AWS EC2）
+### 5. Run the Backend
 
-后端已部署于 AWS EC2，由 nginx 反向代理对外提供 HTTPS 服务。本地开发如需自行启动：
-
+**Locally:**
 ```bash
 cd code/Backend
 uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 
-云端 API 文档：`https://3.137.203.149/docs`
+**On AWS EC2** (nginx reverse proxy, HTTPS on port 443):
+```bash
+cd ~/app
+source .venv/bin/activate
+nohup uvicorn main:app --host 127.0.0.1 --port 8000 &
+sudo systemctl start nginx
+```
 
-### 6. 打开前端
+> If running locally, update `API_BASE` in `code/Frontend/index.html` from `https://18.216.62.238` to `http://localhost:8000`.
 
-直接用浏览器打开 `code/Frontend/index.html` 即可，前端默认连接 AWS EC2 云端 API。
+### 6. Open the Frontend
 
-> **注意**：AI 换发型功能需在 **Poe 平台**内嵌页面中使用（依赖 Poe Embed API + GPT-Image-1.5）。
+Open `code/Frontend/index.html` directly in a browser.
+
+> **Note:** The AI Hairstyle feature requires the page to be embedded inside **Poe** (depends on Poe Embed API + GPT-Image-1.5). It will not work when opening the HTML file directly.
 
 ---
 
-## API 说明
+## API Reference
 
 ### POST `/api/generate`
 
-生成证件照。
+Generate an ID photo.
 
-| 参数 | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
-| `image` | file | - | 上传的人像照片 |
-| `bg_color` | string | `#FFFFFF` | 背景颜色（Hex） |
-| `height` | int | `413` | 证件照高度（像素） |
-| `width` | int | `295` | 证件照宽度（像素） |
-| `matting_model` | string | `modnet_photographic_portrait_matting` | 使用的抠图模型（见下表） |
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `image` | file | — | Portrait image to process |
+| `bg_color` | string | `#FFFFFF` | Background color (hex) |
+| `height` | int | `413` | Output height in pixels |
+| `width` | int | `295` | Output width in pixels |
+| `matting_model` | string | `modnet_photographic_portrait_matting` | Matting model to use |
 
-**可用抠图模型：**
+**Available matting models:**
 
-| 值 | 说明 |
-|----|------|
-| `modnet_photographic_portrait_matting` | MODNet 摄影版（默认推荐） |
-| `hivision_modnet` | HivisionModNet，证件照优化 |
-| `birefnet-v1-lite` | BiRefNet Lite，边缘精细 |
-| `rmbg-1.4` | RMBG 1.4，背景去除专项 |
+| Value | Description |
+|-------|-------------|
+| `modnet_photographic_portrait_matting` | MODNet photographic (default) |
+| `hivision_modnet` | HivisionModNet, optimized for ID photos |
+| `birefnet-v1-lite` | BiRefNet Lite, fine edge detail |
+| `rmbg-1.4` | RMBG 1.4, background removal |
 
-返回 JSON：`{ "image": "<base64>" }`
+**Response:** `{ "image": "<base64 JPEG>" }`
 
 ---
 
-## 常见问题
+## FAQ
 
-**Q: 提示「未检测到人脸」**
-A: 请上传包含清晰正面人脸的照片，避免侧脸、遮挡或模糊。
+**Q: "No face detected" error**
+A: Upload a clear, front-facing portrait. Avoid side profiles, obstructions, or blurry images.
 
-**Q: 模型加载报错**
-A: 检查模型文件是否放在正确目录，文件名是否完全一致。
+**Q: Model loading error**
+A: Verify that all `.onnx` files are placed in the correct directories with exact filenames.
 
-**Q: pip 安装失败**
-A: 确保 Python 版本 >= 3.9，建议使用虚拟环境。
+**Q: pip install fails**
+A: Ensure Python >= 3.9 and use a virtual environment.
 
-**Q: AI 换发型功能无法使用**
-A: 此功能依赖 Poe Embed API，需在 Poe 平台嵌入页面中使用，直接打开 HTML 文件无法调用。
+**Q: AI Hairstyle feature not working**
+A: This feature requires the Poe Embed API. It only works when the page is embedded inside a Poe bot — not when opened as a local file.
 
-**Q: 前端连不上后端**
-A: 前端默认连接 AWS EC2 云端 `https://3.137.203.149`，确认 EC2 实例正在运行且安全组已开放 443 端口。首次访问浏览器可能提示证书警告，手动信任自签名证书后即可正常使用。
+**Q: Frontend cannot connect to backend**
+A: The frontend points to `https://18.216.62.238` (AWS EC2). If the EC2 instance is stopped, run the backend locally and update `API_BASE` in `index.html` to `http://localhost:8000`. On first visit to the EC2 HTTPS endpoint, the browser may show a certificate warning — click "Advanced" and proceed to trust the self-signed certificate.
