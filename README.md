@@ -1,6 +1,6 @@
 # VISAGE — AI ID Photo & Hairstyle Studio
 
-An AI-powered portrait tool built on [HivisionIDPhotos](https://github.com/Zeyi-Lin/HivisionIDPhotos), offering two core features: professional ID photo generation and AI hairstyle transformation.
+An AI-powered portrait tool using the [HivisionIDPhotos](https://github.com/Zeyi-Lin/HivisionIDPhotos) framework, offering two core features: professional ID photo generation and AI hairstyle transformation.
 
 > **Note:** The AWS EC2 backend is currently **stopped** to avoid incurring additional cloud costs. To run the ID photo feature, deploy the backend locally or restart the EC2 instance (see [Running the Backend](#5-run-the-backend) below).
 
