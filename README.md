@@ -1,3 +1,7 @@
+## AI 证件照演示
+
+https://github.com/user-attachments/assets/67dea150-95dc-4b37-ab45-87e674fb94d4
+
 # VISAGE — AI ID Photo & Hairstyle Studio
 
 An AI-powered portrait tool developed as a derivative work of the open-source [HivisionIDPhotos](https://github.com/Zeyi-Lin/HivisionIDPhotos) framework, focusing on system integration and AI-driven workflows, and offering two core features: professional ID photo generation and AI hairstyle transformation.
