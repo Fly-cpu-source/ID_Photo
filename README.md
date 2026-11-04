@@ -1,4 +1,4 @@
-## AI 证件照项目演示 （硕士课程独立完成）
+## AI 证件照项目演示 
 
 https://github.com/user-attachments/assets/67dea150-95dc-4b37-ab45-87e674fb94d4
 
